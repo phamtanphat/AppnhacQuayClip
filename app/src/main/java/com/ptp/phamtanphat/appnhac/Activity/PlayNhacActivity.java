@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
@@ -41,10 +42,12 @@ public class PlayNhacActivity extends AppCompatActivity {
     Fragment_Dia_Nhac fragment_dia_nhac;
     Fragment_Play_Danh_Sach_Cac_Bai_Hat fragment_play_danh_sach_cac_bai_hat;
     int position = 0;
+    String giatri = "";
     MediaPlayer mediaPlayer = new MediaPlayer();
     boolean repeat = false;
     boolean checkrandom = false;
     boolean initialStage = true;
+    Boolean prepared = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,8 +253,7 @@ public class PlayNhacActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
         toolbarplaynhac = findViewById(R.id.toolbarplaynhac);
         txtTimesong = findViewById(R.id.textviewtimesong);
         txtTotaltimesong = findViewById(R.id.textviewtotaltimesong);
@@ -291,8 +293,10 @@ public class PlayNhacActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            Boolean prepared = false;
+
             try {
+
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setDataSource(strings[0]);
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -302,12 +306,35 @@ public class PlayNhacActivity extends AppCompatActivity {
                         mediaPlayer.reset();
                     }
                 });
-                mediaPlayer.prepareAsync();
-                prepared = true;
+                if (mediaPlayer == null){
+                    Log.d("DDD","Da bi null");
+                }else {
+                    Log.d("DDD","Không null");
+                }
+                mediaPlayer.prepare();
+                if (mediaPlayer == null){
+                    Log.d("DDD","Da bi null");
+                }else {
+                    Log.d("DDD","Không null");
+                }
+            }catch (IllegalStateException e) {
+                if (e.getMessage() != null){
+                    Log.d("DDD",e.getMessage());
+                }
+                if (mediaPlayer == null){
+                    Log.d("DDD","Da bi null");
+                }else {
+                    Log.d("DDD","Không null");
+                }
             } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("CCC",e.getMessage());
-                prepared = false;
+                if (e.getMessage() != null){
+                    Log.d("DDD",e.getMessage());
+                }
+                if (mediaPlayer == null){
+                    Log.d("DDD","Da bi null");
+                }else {
+                    Log.d("DDD","Không null");
+                }
             }
             return prepared;
         }
@@ -319,9 +346,9 @@ public class PlayNhacActivity extends AppCompatActivity {
             TimeSong();
             UpdateTime();
             initialStage = false;
+
         }
     }
-
     private void TimeSong() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
         txtTotaltimesong.setText(simpleDateFormat.format(mediaPlayer.getDuration()));
@@ -333,6 +360,7 @@ public class PlayNhacActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 sktime.setProgress(mediaPlayer.getCurrentPosition());
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
                 txtTimesong.setText(simpleDateFormat.format(mediaPlayer.getCurrentPosition()));
@@ -380,4 +408,5 @@ public class PlayNhacActivity extends AppCompatActivity {
             }
         }, 300);
     }
+
 }

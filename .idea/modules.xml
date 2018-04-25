@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Appnhac.iml" filepath="$PROJECT_DIR$/Appnhac.iml" />
+      <module fileurl="file://C:\Users\Dell\Desktop\AppnhacQuayClip\Appnhac.iml" filepath="C:\Users\Dell\Desktop\AppnhacQuayClip\Appnhac.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AppnhacQuayClip.iml" filepath="$PROJECT_DIR$/AppnhacQuayClip.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
